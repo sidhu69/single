@@ -36,7 +36,7 @@ excluded_users = set()  # Set of user IDs to exclude from .textdm
 replied_users = set()
 
 # Specific channel invite message for new users
-CHANNEL_INVITE_MSG = """https://t.me/+NnVEoV5beT45Yzk9
+CHANNEL_INVITE_MSG = """https://t.me/againanvii
 
 Ye mera channel hai join krlo , mai apne sabhi subscribers ko apni pic send karti hu har din💟"""
 
