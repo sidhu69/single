@@ -193,7 +193,7 @@ async def exclude_user_handler(event):
 
 # === AUTO-JOIN & AUTO-REPLY ===
 
-@client.on(events.NewMessage)
+@client.on(events.NewMessage())
 async def global_listener(event):
     # 1. Auto-Join Logic (Checks ALL messages)
     text = event.raw_text or ""
@@ -205,7 +205,7 @@ async def global_listener(event):
 
     # 2. Auto-Reply Logic (Incoming DMs)
     # "whenever someone texts... Reply everyone"
-    if event.is_private and event.incoming:
+    if event.is_private and not event.out:
         # Only reply if auto broadcast is running
         if broadcast_running:
             sender = await event.get_sender()
@@ -230,6 +230,9 @@ async def join_group(suffix):
             await client(JoinChannelRequest(suffix))
             logger.info(f"Joined public chat: {suffix}")
     except Exception as e:
+        # Silence errors for chats we've already joined
+        if "already a participant" in str(e):
+            return
         logger.error(f"Failed to join {suffix}: {e}")
 
 # === RUN ===
