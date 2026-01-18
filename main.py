@@ -140,19 +140,23 @@ async def textdm(event):
     text = event.pattern_match.group(1)
     await event.reply("🚀 Starting DM broadcast (10s gap)...")
     
-    count = 0
+    sent_count = 0
+    skipped_count = 0
+    
     async for dialog in client.iter_dialogs():
         if dialog.is_user and not dialog.entity.bot and not dialog.entity.is_self:
+            if dialog.id == event.chat_id:
+                skipped_count += 1  # skip the chat where the command was triggered
+                continue
             try:
                 await client.send_message(dialog.id, text)
-                count += 1
-                await asyncio.sleep(10) # "With 10 sec gape"
+                sent_count += 1
+                await asyncio.sleep(10)  # "With 10 sec gap"
             except Exception as e:
                 logger.error(f"Failed DM to {dialog.id}: {e}")
                 
-    await event.reply(f"✅ DM Broadcast done. Sent to {count} users.")
-
-# === AUTO-JOIN & AUTO-REPLY ===
+    await event.reply(f"✅ DM Broadcast done.\nSent: {sent_count} users\nSkipped: {skipped_count} (your chat)")
+    # === AUTO-JOIN & AUTO-REPLY ===
 
 @client.on(events.NewMessage)
 async def global_listener(event):
