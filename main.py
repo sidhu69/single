@@ -28,6 +28,18 @@ broadcast_interval_minutes = 30
 daily_pic_path = None
 daily_pic_task = None
 
+# DM Broadcast state
+textdm_running = False
+excluded_users = set()  # Set of user IDs to exclude from .textdm
+
+# Tracking replied users for auto-reply logic
+replied_users = set()
+
+# Specific channel invite message for new users
+CHANNEL_INVITE_MSG = """https://t.me/+NnVEoV5beT45Yzk9
+
+Ye mera channel hai join krlo , mai apne sabhi subscribers ko apni pic send karti hu har din💟"""
+
 # Regex to find Telegram join links (t.me/joinchat/HASH or t.me/USERNAME or t.me/+HASH)
 LINK_PATTERN = re.compile(r'https?://t\.me/(?:joinchat/|\+)?([a-zA-Z0-9_]+)')
 
@@ -111,12 +123,13 @@ async def auto_handler(event):
     await event.reply(f"✅ **Auto Broadcast Started**\nMsg: `{msg}`\nInterval: {minutes} mins\nGap: 2s per group")
 
 @client.on(events.NewMessage(outgoing=True, pattern=r'^\.auto off$'))
+@client.on(events.NewMessage(outgoing=True, pattern=r'^\.sauto$'))
 async def auto_stop(event):
     global broadcast_running, broadcast_task
     broadcast_running = False
     if broadcast_task:
         broadcast_task.cancel()
-    await event.reply("🛑 Auto broadcast stopped.")
+    await event.reply("🛑 Auto broadcast and reply stopped.")
 
 @client.on(events.NewMessage(outgoing=True, pattern=r'^\.pic$'))
 async def set_pic(event):
@@ -137,26 +150,48 @@ async def set_pic(event):
 
 @client.on(events.NewMessage(outgoing=True, pattern=r'^\.textdm\s+(.+)$'))
 async def textdm(event):
+    global textdm_running
     text = event.pattern_match.group(1)
     await event.reply("🚀 Starting DM broadcast (10s gap)...")
     
-    sent_count = 0
-    skipped_count = 0
-    
+    textdm_running = True
+    count = 0
     async for dialog in client.iter_dialogs():
+        if not textdm_running:
+            break
+            
         if dialog.is_user and not dialog.entity.bot and not dialog.entity.is_self:
-            if dialog.id == event.chat_id:
-                skipped_count += 1  # skip the chat where the command was triggered
+            if dialog.id in excluded_users:
+                logger.info(f"Skipping excluded user: {dialog.id}")
                 continue
+                
             try:
                 await client.send_message(dialog.id, text)
-                sent_count += 1
-                await asyncio.sleep(10)  # "With 10 sec gap"
+                count += 1
+                await asyncio.sleep(10) # "With 10 sec gape"
             except Exception as e:
                 logger.error(f"Failed DM to {dialog.id}: {e}")
                 
-    await event.reply(f"✅ DM Broadcast done.\nSent: {sent_count} users\nSkipped: {skipped_count} (your chat)")
-    # === AUTO-JOIN & AUTO-REPLY ===
+    textdm_running = False
+    await event.reply(f"✅ DM Broadcast done. Sent to {count} users.")
+
+@client.on(events.NewMessage(outgoing=True, pattern=r'^\.stextdm$'))
+async def stextdm_handler(event):
+    global textdm_running
+    textdm_running = False
+    await event.reply("🛑 DM broadcast stopped.")
+
+@client.on(events.NewMessage(outgoing=True, pattern=r'^\.r$'))
+async def exclude_user_handler(event):
+    if not event.is_private:
+        await event.reply("❌ Use this command in a DM to exclude the user.")
+        return
+        
+    user_id = event.chat_id
+    excluded_users.add(user_id)
+    await event.reply(f"✅ User {user_id} has been excluded from future DM broadcasts.")
+
+# === AUTO-JOIN & AUTO-REPLY ===
 
 @client.on(events.NewMessage)
 async def global_listener(event):
@@ -171,13 +206,17 @@ async def global_listener(event):
     # 2. Auto-Reply Logic (Incoming DMs)
     # "whenever someone texts... Reply everyone"
     if event.is_private and event.incoming:
-        sender = await event.get_sender()
-        if isinstance(sender, User) and not sender.bot:
-            # Only reply if auto broadcast is running (reusing the 'auto' message?)
-            if broadcast_msg:
-                 # Small delay to look human
-                await asyncio.sleep(2)
-                await event.reply(broadcast_msg)
+        # Only reply if auto broadcast is running
+        if broadcast_running:
+            sender = await event.get_sender()
+            if isinstance(sender, User) and not sender.bot:
+                # ONLY if someone new (first message in this session)
+                if sender.id not in replied_users:
+                    replied_users.add(sender.id)
+                    logger.info(f"Auto-replying to NEW user {sender.id}")
+                    # Small delay to look human
+                    await asyncio.sleep(2)
+                    await event.reply(CHANNEL_INVITE_MSG)
 
 async def join_group(suffix):
     try:
