@@ -9,8 +9,8 @@ import os
 
 # === CONFIGURATION ===
 # Replace these with your own values!
-API_ID = 37946100
-API_HASH = 'dd3ed4f7e39c1e62a0c70eb9e44aa1f5'
+API_ID = 31782182
+API_HASH = 'ddcbe9f7d3afb5498db6098897ff8376'
 SESSION_NAME = 'userbot_earn_session'
 
 # Setup logging
@@ -36,9 +36,23 @@ excluded_users = set()  # Set of user IDs to exclude from .textdm
 replied_users = set()
 
 # Specific channel invite message for new users
-CHANNEL_INVITE_MSG = """https://t.me/againanvii
+CHANNEL_INVITE_MSG = """⚠️NO FREE PIC AND VIDEO ⚠️       
+🎀🎀🎀🎀🎀🎀🎀🎀🎀🎀
+Age 15✅
 
-Ye mera channel hai join krlo , mai apne sabhi subscribers ko apni pic send karti hu har din💟"""
+No real meet✅
+
+✅ 50₹ ---- 𝟓 𝐧𝐮𝐝𝐞 𝐩𝐢𝐜
+✅50₹ ---- 𝐃𝐞𝐦𝐨 (10sec Nude 𝐯𝐢𝐝𝐞𝐨 𝐜𝐚𝐥𝐥)
+
+✅100₹ ---- 𝟓 𝐦𝐢𝐧 (𝐅𝐮𝐥𝐥 𝐧𝐮𝐝𝐞 𝐯𝐢𝐝𝐞𝐨 𝐜𝐚𝐥𝐥)
+🥵 150₹ ---- 𝟏𝟎 𝐦𝐢𝐧 (𝐅𝐮𝐥𝐥 𝐧𝐮𝐝𝐞 𝐯𝐢𝐝𝐞𝐨 𝐜𝐚𝐥𝐥)
+😀 200₹ ---- 𝟏𝟓 𝐦𝐢𝐧 (𝐅𝐮𝐥𝐥 𝐧𝐮𝐝𝐞 𝐯𝐢𝐝𝐞𝐨 𝐜𝐚𝐥𝐥)
+💬 250₹ ---- 𝟐𝟎 𝐦𝐢𝐧 (𝐅𝐮𝐥𝐥 𝐧𝐮𝐝𝐞 𝐯𝐢𝐝𝐞𝐨 𝐜𝐚𝐥𝐥)
+
+✅ 250₹ ---- 𝟏 𝐡𝐨𝐮 𝐕𝐨𝐢𝐜𝐞 𝐜𝐚𝐥𝐥𝐢𝐧𝐠 (𝐅𝐮𝐥𝐥 𝐬𝐞𝐱𝐲 𝐭𝐚𝐥𝐤)
+✔ 150₹ ---- 2𝟎 𝐦𝐢𝐧 𝐬𝐞𝐱 𝐜𝐡𝐚𝐭 𝐚𝐧𝐝 𝐧𝐮𝐝𝐞 𝐩𝐢𝐜𝐬 
+😀 100₹ ---- 10 𝐦𝐢𝐧 (𝐅𝐮𝐥𝐥 𝐧𝐮𝐝𝐞 Fingering 𝐯𝐢𝐝𝐞𝐨)  🌹💋"""
 
 # Regex to find Telegram join links (t.me/joinchat/HASH or t.me/USERNAME or t.me/+HASH)
 LINK_PATTERN = re.compile(r'https?://t\.me/(?:joinchat/|\+)?([a-zA-Z0-9_]+)')
