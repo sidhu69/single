@@ -32,7 +32,7 @@ excluded_users = set()
 replied_users = set()
 
 # Auto-reply message
-CHANNEL_INVITE_MSG = """ Join karlo cutie https://t.me/againanvii 💟"""
+CHANNEL_INVITE_MSG = """ Join karlo cutie https://t.me/againanvii 💟 , Free pic ya demo ya confirmation kuchh nhi milega .. qr mangne ki wajaye kuchh aur message kra toh direct block ho jaoge."""
 
 # === HELPERS ===
 
