@@ -5,8 +5,8 @@ import logging
 import os
 
 # === CONFIGURATION ===
-API_ID = 31782182
-API_HASH = 'ddcbe9f7d3afb5498db6098897ff8376'
+API_ID = 35837207
+API_HASH = 'f06484e6162f043c3209a1d6a6910548'
 SESSION_NAME = 'userbot_earn_session'
 
 # Setup logging
