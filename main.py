@@ -32,7 +32,7 @@ excluded_users = set()
 replied_users = set()
 
 # Auto-reply message
-CHANNEL_INVITE_MSG = """ Hey join my channel https://t.me/againanvii , service available for 50 rs👀💟 I'm new on telegram please support me👀💟"""
+CHANNEL_INVITE_MSG = """ Hey join my channel https://t.me/againanvii , Mai 250 mein 30 mins video call service de rhi hu nude💟 I'm new on telegram please support me👀💟"""
 
 # === HELPERS ===
 
