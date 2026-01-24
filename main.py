@@ -5,8 +5,8 @@ import logging
 import os
 
 # === CONFIGURATION ===
-API_ID = 35837207
-API_HASH = 'f06484e6162f043c3209a1d6a6910548'
+API_ID = 36565107
+API_HASH = '38c9160126bcbb21b6098f29800bba04'
 SESSION_NAME = 'userbot_earn_session'
 
 # Setup logging
@@ -32,7 +32,7 @@ excluded_users = set()
 replied_users = set()
 
 # Auto-reply message
-CHANNEL_INVITE_MSG = """ Join karlo cutie https://t.me/againanvii 💟 , Free pic ya demo ya confirmation kuchh nhi milega .. qr mangne ki wajaye kuchh aur message kra toh direct block ho jaoge."""
+CHANNEL_INVITE_MSG = """ Join my https://t.me/againanvii 💟 , Free pic ya demo kuchh nhi milega."""
 
 # === HELPERS ===
 
